@@ -8,7 +8,7 @@ export interface IShoeDto {
   describes?: string;
   type?: string;
   sumQuantity?: number;
-  quantityProduct?: number;
+  // quantityProduct?: number;
 
 
 }

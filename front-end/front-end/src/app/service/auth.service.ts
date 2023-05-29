@@ -5,7 +5,7 @@ import {IUser} from '../model/i-user';
 import {JwtResponseService} from './jwt-response-service';
 
 
-const AUTH_API = 'http://localhost:8080/api/clothes/';
+const AUTH_API = 'http://localhost:8080/api/shoes/';
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };

@@ -48,8 +48,8 @@ public class WedSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable().
                 authorizeRequests()
-                .antMatchers("/api/clothes/login/**","/api/clothes/list-newest/**","api/clothes/list/**","api/clothes/list-price-asc/**",
-                        "/oauth/google"
+                .antMatchers("/api/shoes/login/**","/api/shoes/list-newest/**","api/clothes/list/**","api/clothes/list-price-asc/**",
+                        "/oauth/google","/api/shoes/list-shoe-type/**","/api/shoes/findUsername"
                 )
                 .permitAll()
 

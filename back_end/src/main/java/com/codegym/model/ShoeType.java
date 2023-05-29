@@ -1,5 +1,7 @@
 package com.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 @Entity
@@ -10,6 +12,7 @@ public class ShoeType {
     private String name;
     private boolean isDelete;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "shoeType")
     private Set<Shoe> shoes;
 

@@ -10,7 +10,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  loginUrl = 'http://localhost:8080/api/clothes';
+  loginUrl = 'http://localhost:8080/api/shoes';
 
   constructor(private http: HttpClient) { }
 
