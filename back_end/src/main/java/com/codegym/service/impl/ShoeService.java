@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShoeService implements IShoeService {
     @Autowired
@@ -15,7 +17,22 @@ public class ShoeService implements IShoeService {
 
 
     @Override
-    public Page<IShoeDto> showListShoe(String nameShoe, String typeShoe, Integer priceStart, Integer priceEnd, Pageable pageable) {
-        return iShoeRepository.showListShoe(nameShoe, typeShoe, priceStart, priceEnd, pageable);
+    public Page<IShoeDto> showListShoe(String nameShoe, String typeShoe, String manufacturerShoe, Integer priceStart, Integer priceEnd, Pageable pageable) {
+        return iShoeRepository.showListShoe(nameShoe, typeShoe, manufacturerShoe, priceStart, priceEnd, pageable);
+    }
+
+    @Override
+    public List<String> findAllManufacturerShoe() {
+        return iShoeRepository.findAllManufacturerShoe();
+    }
+
+    @Override
+    public IShoeDto findShoeById(Integer id) {
+        return iShoeRepository.findShoeById(id);
+    }
+
+    @Override
+    public Integer findByIdSize(Integer idSize, Integer idShoe) {
+        return iShoeRepository.findByIdSize(idSize, idShoe);
     }
 }

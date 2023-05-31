@@ -13,6 +13,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
 import {ShoeListComponent} from './component/shoe-list/shoe-list.component';
+import { ShoeDetailComponent } from './component/shoe-detail/shoe-detail.component';
+import { ShoeCartComponent } from './component/shoe-cart/shoe-cart.component';
 
 const googleLoginOptions = {
   scope: 'profile email',
@@ -25,7 +27,9 @@ const googleLoginOptions = {
     HomeComponent,
     HeaderComponent,
     LoginComponent,
-    ShoeListComponent
+    ShoeListComponent,
+    ShoeDetailComponent,
+    ShoeCartComponent
   ],
   imports: [
     BrowserModule,

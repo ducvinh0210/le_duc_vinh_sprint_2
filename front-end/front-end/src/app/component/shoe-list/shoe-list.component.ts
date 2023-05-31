@@ -15,6 +15,7 @@ export class ShoeListComponent implements OnInit {
 
   nameShoe = '';
   typeShoe = '';
+  manufacturerShoe = '';
   priceStart = 0;
   priceEnd = 10000000;
   sortBy = 'newest';
@@ -24,6 +25,8 @@ export class ShoeListComponent implements OnInit {
   totalPage: number;
   shoeList$: Observable<IShoeDto[]>;
   shoeTypeList$: Observable<IType[]>;
+  manufacturer$: Observable<string[]>;
+
 
   username: string;
   roles: string[] = [];
@@ -38,6 +41,7 @@ export class ShoeListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllShoePaging();
     this.getAllShoeType();
+    this.getAllManufacturer();
 
     this.username = '';
     this.showUsername();
@@ -55,10 +59,9 @@ export class ShoeListComponent implements OnInit {
 
   getAllShoePaging(): void {
 
-    this.shoeService.showListShoe(this.page, this.pageSize, this.nameShoe, this.typeShoe,
+    this.shoeService.showListShoe(this.page, this.pageSize, this.nameShoe, this.typeShoe, this.manufacturerShoe,
       this.priceStart, this.priceEnd, this.sortBy).subscribe(value => {
         console.log(value);
-        debugger
         this.shoeList$ = new BehaviorSubject<IShoeDto[]>(value.content);
         console.log('day la value +' + this.shoeList$);
         this.quantity = value.totalElements;
@@ -79,6 +82,15 @@ export class ShoeListComponent implements OnInit {
     });
   }
 
+  getAllManufacturer(): void {
+    this.shoeService.showListManufacturer().subscribe(value => {
+      this.manufacturer$ = new BehaviorSubject<string[]>(value);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+
   searchAllPrice(): void {
     this.priceStart = 0;
     this.priceEnd = 10000000;
@@ -90,6 +102,13 @@ export class ShoeListComponent implements OnInit {
     this.page = 1;
     this.typeShoe = name;
     this.getAllShoePaging();
+  }
+
+  searchManufacturer(item: string): void {
+    this.page = 1;
+    this.manufacturerShoe = item;
+    this.getAllShoePaging();
+
   }
 
   previous(): void {
@@ -130,5 +149,8 @@ export class ShoeListComponent implements OnInit {
 
 
   getLogin(id: number) {
+    this.router.navigateByUrl('detail/' + id);
   }
+
+
 }

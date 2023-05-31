@@ -48,12 +48,14 @@ public class WedSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable().
                 authorizeRequests()
-                .antMatchers("/api/shoes/login/**","/api/shoes/list-newest/**","api/clothes/list/**","api/clothes/list-price-asc/**",
-                        "/oauth/google","/api/shoes/list-shoe-type/**","/api/shoes/findUsername"
+                .antMatchers("/api/shoes/login/**", "/api/shoes/list-newest/**", "api/clothes/list/**", "api/clothes/list-price-asc/**",
+                        "/oauth/google", "/api/shoes/list-shoe-type/**", "/api/shoes/findUsername", "/api/shoes/list-manufacturer/**", "/api/shoes/list-discount/**",
+                        "/api/shoes/list-price-desc/**", "/api/shoes/list-price-asc/**","/api/shoes/get-customer/**","/api/shoes/cart/**","/api/shoes/detail-shoe/**",
+                        "/api/shoes/shoe-size/**", "/api/shoes/add-cart/**"
                 )
                 .permitAll()
 
-                .antMatchers("/api/clothes/detail/**","/api/clothes/remove-cart/**","/api/clothes/quantity-size/**")
+                .antMatchers("/api/clothes/detail/**", "/api/clothes/remove-cart/**", "/api/clothes/quantity-size/**")
                 .hasRole("CUSTOMER")
                 .and()
                 .authorizeRequests()
@@ -68,7 +70,6 @@ public class WedSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe().key("uniqueAndSecret").tokenValiditySeconds(60 * 60 * 24);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 
 
 }

@@ -80,6 +80,27 @@
           </div>
 
 
+          <div class="sidebar__item">
+            <h4>Hãng sản xuất</h4>
+            <div class="sidebar__item__size" *ngFor="let item of (manufacturer$ | async)!; index as i">
+              <label class="hover-gray" *ngIf="manufacturerShoe != item" style="border: 1px solid lightgray">
+                {{item | titlecase}}
+                <input type="radio" (click)="searchManufacturer(item)"/>
+              </label>
+
+              <label style="pointer-events: none; background-color: #c7c7c7; color: white"
+                     *ngIf="manufacturerShoe == item">{{item | titlecase}}
+                <input type="radio"/>
+              </label>
+            </div>
+            <div class="sidebar__item__size">
+              <label for="all" class="hover-gray" style="border: 1px solid lightgray">
+                Tất cả hãng sản xuất
+                <input type="radio" id="all" (click)="searchManufacturer('')"/>
+              </label>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="col-lg-9 col-md-7">
@@ -97,7 +118,7 @@
                 <span>
                 <select class="custom-select" [(ngModel)]="sortBy" (change)="getPage1()">
                   <option value="newest">Mới nhất</option>
-                  <option value="sale">Khuyến mãi</option>
+                  <option value="discount">Khuyến mãi</option>
                   <option value="price-asc">Giá tăng dần</option>
                   <option value="price-desc">Giá giảm dần</option>
                 </select>
