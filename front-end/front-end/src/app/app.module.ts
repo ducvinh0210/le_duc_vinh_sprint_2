@@ -15,6 +15,7 @@ import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'a
 import {ShoeListComponent} from './component/shoe-list/shoe-list.component';
 import { ShoeDetailComponent } from './component/shoe-detail/shoe-detail.component';
 import { ShoeCartComponent } from './component/shoe-cart/shoe-cart.component';
+import { ShoeHistoryComponent } from './component/shoe-history/shoe-history.component';
 
 const googleLoginOptions = {
   scope: 'profile email',
@@ -29,7 +30,8 @@ const googleLoginOptions = {
     LoginComponent,
     ShoeListComponent,
     ShoeDetailComponent,
-    ShoeCartComponent
+    ShoeCartComponent,
+    ShoeHistoryComponent
   ],
   imports: [
     BrowserModule,

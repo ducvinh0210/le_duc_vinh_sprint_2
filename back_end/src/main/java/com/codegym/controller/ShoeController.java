@@ -4,6 +4,7 @@ package com.codegym.controller;
 import com.codegym.dto.IShoeCartDto;
 import com.codegym.dto.IShoeDto;
 import com.codegym.dto.IShoeSizeDto;
+import com.codegym.dto.Quantity;
 import com.codegym.jwt.JwtTokenUtil;
 import com.codegym.model.Customer;
 import com.codegym.model.OrderDetail;
@@ -190,19 +191,59 @@ public class ShoeController {
         return new ResponseEntity<>(shoeSizeDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("add-cart/{quantity}/{customerId}/{shoeSizeId}")
+    @GetMapping("/add-cart/{quantity}&{customerId}&{shoeSizeId}")
     public ResponseEntity<OrderDetail> addToCart(@PathVariable("quantity") Integer quantity,
                                                  @PathVariable("customerId") Integer customerId,
                                                  @PathVariable("shoeSizeId") Integer shoeSizeId) {
+
         iOrderDetailService.addOrderDetailCart(quantity, customerId, shoeSizeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("quantity-size/{idSize}/{idShoe}")
+    @GetMapping("/quantity-size/{idSize}/{idShoe}")
     public ResponseEntity<Integer> quantityShoeSizeBySize(@PathVariable("idSize") Integer idSize,
-                                                          @PathVariable("idShie") Integer idShoe) {
+                                                          @PathVariable("idShoe") Integer idShoe) {
         Integer quantityShoeBySize = iShoeService.findByIdSize(idSize, idShoe);
         return new ResponseEntity<>(quantityShoeBySize, HttpStatus.OK);
     }
 
+    @GetMapping("/desc-quantity/{id}")
+    public ResponseEntity<OrderDetail> descQuantityCart(@PathVariable("id") Integer id) {
+        iOrderDetailService.descQuantity(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+    @GetMapping("/asc-quantity/{id}")
+    public ResponseEntity<OrderDetail> ascQuantityCart(@PathVariable("id") Integer id) {
+        iOrderDetailService.ascQuantity(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/remove-cart/{id}")
+    public ResponseEntity<OrderDetail> removeCart(@PathVariable("id") Integer id) {
+        iOrderDetailService.removeCart(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/update-quantity-shoe")
+    public ResponseEntity<?> updateQuantityShoeSize(@RequestParam("customerId") Integer customerId) {
+        List<Quantity> shoeSizeList = iShoeSizeService.findAllShoeSize(customerId);
+        for (Quantity quantity : shoeSizeList) {
+            iShoeSizeService.updateQuantityShoeSize(quantity.getQuantityShoeSize() - quantity.getQuantity(), quantity.getShoeSizeId());
+        }
+        iOrderDetailService.paymentShoe(customerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/history-cart/{customerId}")
+    public ResponseEntity<Page<IShoeCartDto>> findAllHistoryCart(@PathVariable("customerId") Integer customerId,
+                                                                 @PageableDefault(value = 4) Pageable pageable) {
+        Page<IShoeCartDto> findAllHistoryCart = iOrderDetailService.findAllHistoryCart(customerId, pageable);
+        if (findAllHistoryCart.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(findAllHistoryCart, HttpStatus.OK);
+    }
 }

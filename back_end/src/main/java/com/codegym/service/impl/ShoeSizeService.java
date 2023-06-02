@@ -2,6 +2,7 @@ package com.codegym.service.impl;
 
 
 import com.codegym.dto.IShoeSizeDto;
+import com.codegym.dto.Quantity;
 import com.codegym.repository.IShoeRepository;
 import com.codegym.repository.IShoeSizeRepository;
 import com.codegym.service.IShoeSizeService;
@@ -19,5 +20,15 @@ public class ShoeSizeService implements IShoeSizeService {
     @Override
     public List<IShoeSizeDto> findSizeByShoe(Integer id) {
         return iShoeSizeRepository.findAllSizeByShoe(id);
+    }
+
+    @Override
+    public void updateQuantityShoeSize(Integer quantity, Integer id) {
+        iShoeSizeRepository.updateQuantityShoeSize(quantity,id);
+    }
+
+    @Override
+    public List<Quantity> findAllShoeSize(Integer customerId) {
+        return iShoeSizeRepository.findAllShoeSize(customerId);
     }
 }

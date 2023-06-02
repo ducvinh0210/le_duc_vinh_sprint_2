@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {Title} from '@angular/platform-browser';
 import {IShoeSizeDto} from '../../model/i-shoe-size-dto';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -64,10 +65,8 @@ export class ShoeDetailComponent implements OnInit {
   }
 
   findShoeById(): void {
-
     this.shoeService.findShoeById(this.id).subscribe(value => {
       this.shoe = value;
-      debugger
       console.log(this.shoe);
     }, error => {
       console.log('day la loi' + error);
@@ -87,22 +86,82 @@ export class ShoeDetailComponent implements OnInit {
   chooseShoeSize(item: any) {
     this.quantityChoose = 1;
     this.shoeSizeIdChoose = item.id;
+    this.getQuantitySizeProduct(item.idSize);
   }
 
   descQuantity(): void {
     this.quantityChoose--;
   }
 
-  ascQuantity() {
-    this.quantityChoose++;
-  }
-
-  checkQuantity() {
-
+  ascQuantity(): void {
+    if (this.quantityChoose < this.quantityOfCurrentSize) {
+      this.quantityChoose++;
+    }
   }
 
 
   addToCart(): void {
+    if (this.checkQuantity()) {
+      debugger
+      this.shoeService.addToCart(this.quantityChoose, this.idUSer, this.shoeSizeIdChoose).subscribe(() => {
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          }
+        });
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Thêm vào giỏ hàng thành công!'
+        }).then(r => location.replace('cart'));
+      }, error => {
+        console.log(error);
+      });
+
+    } else {
+      this.quantityChoose = this.quantityOfCurrentSize;
+    }
 
   }
+
+  getQuantitySizeProduct(idSize: number) {
+    this.shoeService.getQuantitySizeProduct(idSize, this.id).subscribe(value => {
+      this.quantityOfCurrentSize = value;
+    });
+  }
+
+
+  checkQuantity(): boolean {
+    if (this.quantityChoose > this.quantityOfCurrentSize) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+
+      Toast.fire({
+        icon: 'warning',
+        title: 'Qúa số lượng trong kho, chỉ có thể chọn tối đa' + this.quantityOfCurrentSize
+      });
+
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
 }

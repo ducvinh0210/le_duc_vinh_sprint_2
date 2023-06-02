@@ -47,8 +47,11 @@ public interface IShoeRepository extends JpaRepository<Shoe, Integer> {
     IShoeDto findShoeById(@Param("id") Integer id);
 
 
-    @Query(value = "select shoe_size.quantity from shoe join shoe_size on shoe_size.shoe_id = shoe.id join size on shoe_size.size.id = size.id" +
+    @Query(value = "select shoe_size.quantity from shoe join shoe_size on shoe_size.shoe_id = shoe.id join size on shoe_size.size_id = size.id" +
             " where size.id= :idSize and shoe.id = :idShoe", nativeQuery = true)
     Integer findByIdSize(@Param("idSize") Integer idSize,
                          @Param("idShoe") Integer idShoe);
+
+
+
 }

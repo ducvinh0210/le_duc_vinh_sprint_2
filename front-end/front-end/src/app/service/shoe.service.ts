@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {ObjectUnsubscribedError, Observable} from 'rxjs';
 import {DataResult} from '../model/data-result';
 import {IShoeDto} from '../model/i-shoe-dto';
 import {IType} from '../model/i-type';
@@ -58,6 +58,32 @@ export class ShoeService {
   }
 
   addToCart(quantity: number, customerId: number, shoeSizeId: number): Observable<void> {
+    debugger
     return this.httpClient.get<void>(API_URL + '/shoes/add-cart/' + quantity + '&' + customerId + '&' + shoeSizeId);
+  }
+
+  getQuantitySizeProduct(idSize: number, idProduct: number): Observable<any> {
+    return this.httpClient.get<any>(API_URL + '/shoes/quantity-size/' + idSize + '/' + idProduct);
+  }
+
+  descQuantityCart(id: number): Observable<void> {
+    return this.httpClient.get<void>(API_URL + '/shoes/desc-quantity/' + id);
+  }
+
+  ascQuantityCart(id: number): Observable<void> {
+    return this.httpClient.get<void>(API_URL + '/shoes/asc-quantity/' + id);
+  }
+
+  removeCart(id: number): Observable<void> {
+    return this.httpClient.get<void>(API_URL + '/shoes/remove-cart/' + id);
+  }
+
+  setQuantityShoeSize(customerId: number): Observable<any> {
+    return this.httpClient.get<any>(API_URL + '/shoes/update-quantity-shoe?customerId=' + customerId);
+  }
+
+  getAllHistoryShoe(id: number, curPage: number, numberRecord: number): Observable<DataResult<ICart>> {
+    return this.httpClient.get<DataResult<ICart>>(API_URL + '/shoes/history-cart/' +
+      id + '?page=' + (curPage - 1) + '&size=' + numberRecord);
   }
 }
